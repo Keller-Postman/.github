@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Group to house all fundamental permissions that every user regardless of job title will definitely need to use our org.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>KP - All Users</label>
+    <permissionSets>File_Info_Generic_CU</permissionSets>
+    <permissionSets>KP_Injury_Treatment_View_All</permissionSets>
+    <permissionSets>KP_Task_All_Access</permissionSets>
+    <permissionSets>KP_User_Apex_Access</permissionSets>
+    <permissionSets>LWC_TextAndDynamicFieldBannerController</permissionSets>
+    <permissionSets>Roles_Tasks_Custom_Set</permissionSets>
+    <permissionSets>Run_Flows</permissionSets>
+    <permissionSets>SiX_for_NICE_inContact</permissionSets>
+    <permissionSets>Waive_Multi_Factor_Authentication</permissionSets>
+    <permissionSets>litify_docs__Docs_End_User</permissionSets>
+    <permissionSets>litify_pm__Litify_Apex_Class_Access</permissionSets>
+    <permissionSets>litify_pm__Litify_Matter_User</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>
