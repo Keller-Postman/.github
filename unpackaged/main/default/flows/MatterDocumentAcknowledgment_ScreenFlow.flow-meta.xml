@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actionCalls>
+        <name>Send_Doc_Rec_Ack_Email</name>
+        <label>Send Doc Rec Ack Email</label>
+        <locationX>314</locationX>
+        <locationY>674</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Email_Sent</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>ClientEmailVar</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>service@kellerpostman.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue> Your Documents Have Been Received</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>DocRecAckTemp</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Doc_Rec_Ack_Ship_Back_Email</name>
+        <label>Send Doc Rec Ack &amp; Ship Back Email</label>
+        <locationX>50</locationX>
+        <locationY>890</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Email_Sent</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>ClientEmailVar</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>service@kellerpostman.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue> Your Documents Have Been Received &amp; Are On The Way Back To You</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>DocRecAckShipBackTemp</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>57.0</apiVersion>
+    <assignments>
+        <name>Assign_Inbound_Type_Email</name>
+        <label>Assign Inbound Type &amp; Email</label>
+        <locationX>182</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>ClientEmailVar</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Client_Email.value</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InboundType</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>How_did_the_client_send_their_docs</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Returning_Docs_to_Client</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Shipping_Info</name>
+        <label>Assign Shipping Info</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>ShippingCarrier</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Select_Carrier</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TrackingNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Tracking_Number</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Preview_Email</targetReference>
+        </connector>
+    </assignments>
+    <choices>
+        <name>No</name>
+        <choiceText>No</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>No</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>true</name>
+        <choiceText>true</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>true</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Yes</name>
+        <choiceText>Yes</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Yes</stringValue>
+        </value>
+    </choices>
+    <decisions>
+        <name>Returning_Docs_to_Client</name>
+        <label>Returning Docs to Client</label>
+        <locationX>182</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>Copy_1_of_Preview_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>NOT Returning Docs</defaultConnectorLabel>
+        <rules>
+            <name>Returning_Docs</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Returning_Documents_to_Client</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Yes</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Shipping_Carrier_Info</targetReference>
+            </connector>
+            <label>Returning Docs</label>
+        </rules>
+    </decisions>
+    <description>PM-10/16/2024- Deleted Matter Tier decision element and updated Sender email address to service@kellerpostman.com in all Send email action components - PBI-7068
+Sends Document Acknowledgment email -- invoked by an action on the Matter record</description>
+    <dynamicChoiceSets>
+        <name>InboundTypePicklist</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true" />
+        <object xsi:nil="true" />
+        <picklistField>Inbound_Type__c</picklistField>
+        <picklistObject>litify_pm__Matter__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>ShippingCarrierPicklist</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true" />
+        <object xsi:nil="true" />
+        <picklistField>Shipping_Carrier__c</picklistField>
+        <picklistObject>litify_pm__Matter__c</picklistObject>
+    </dynamicChoiceSets>
+    <environments>Default</environments>
+    <interviewLabel>MatterDocumentAcknowledgment-ScreenFlow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>MatterDocumentAcknowledgment-ScreenFlow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_Client_Party_Record</name>
+        <label>Get Client Party Record</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Document_Intake</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>litify_pm__Matter__c</object>
+        <outputAssignments>
+            <assignToReference>ClientEmailVar</assignToReference>
+            <field>Client_Email__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>ClientName</assignToReference>
+            <field>Client_Name__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>MatterTier</assignToReference>
+            <field>Matter_Tier__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Party</name>
+        <label>Update Party</label>
+        <locationX>182</locationX>
+        <locationY>1190</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Inbound_Type__c</field>
+            <value>
+                <elementReference>InboundType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Shipping_Carrier__c</field>
+            <value>
+                <elementReference>ShippingCarrier</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tracking_Number__c</field>
+            <value>
+                <elementReference>TrackingNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <object>litify_pm__Matter__c</object>
+    </recordUpdates>
+    <screens>
+        <name>Copy_1_of_Preview_Email</name>
+        <label>Preview Email</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Send_Doc_Rec_Ack_Email</targetReference>
+        </connector>
+        <fields>
+            <name>PreviewEmail_NonShip</name>
+            <fieldText>&lt;p&gt;&lt;strong&gt;Review the below email before clicking &#39;Send Email&#39;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!DocRecAckTemp}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Send Email</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Document_Intake</name>
+        <label>Document Intake</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Assign_Inbound_Type_Email</targetReference>
+        </connector>
+        <fields>
+            <name>Client_Name</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(3, 3, 124);&quot;&gt;{!ClientName}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>How_did_the_client_send_their_docs</name>
+            <choiceReferences>InboundTypePicklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>How did the client send their docs?</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Returning_Documents_to_Client</name>
+            <choiceReferences>Yes</choiceReferences>
+            <choiceReferences>No</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Returning Documents to Client?</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Client_Email</name>
+            <extensionName>flowruntime:email</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Client&#39;s Email</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>required</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>value</name>
+                <value>
+                    <elementReference>ClientEmailVar</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Email_Sent</name>
+        <label>Email Sent</label>
+        <locationX>182</locationX>
+        <locationY>1082</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Update_Party</targetReference>
+        </connector>
+        <fields>
+            <name>EmailSent</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(32, 206, 156); font-size: 22px;&quot;&gt;Document Acknowledgement Email Sent&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Preview_Email</name>
+        <label>Preview Email</label>
+        <locationX>50</locationX>
+        <locationY>782</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Send_Doc_Rec_Ack_Ship_Back_Email</targetReference>
+        </connector>
+        <fields>
+            <name>PreviewEmail</name>
+            <fieldText>&lt;p&gt;&lt;strong&gt;Review the below email before clicking &#39;Send Email&#39;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!DocRecAckShipBackTemp}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Send Email</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Shipping_Carrier_Info</name>
+        <label>Shipping Carrier Info</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Assign_Shipping_Info</targetReference>
+        </connector>
+        <fields>
+            <name>Client_Name_Doc</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(3, 3, 124); background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;{!ClientName}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Select_Carrier</name>
+            <choiceReferences>ShippingCarrierPicklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Select Carrier</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Tracking_Number</name>
+            <dataType>String</dataType>
+            <fieldText>Tracking Number</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+        </fields>
+        <nextOrFinishButtonLabel>Next</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Client_Party_Record</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>DocRecAckShipBackTemp</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear {!ClientName},
+
+We would like to confirm that we received the documents you sent via {!How_did_the_client_send_their_docs}.  Our attorneys will review them and reach back out soon with the next steps.
+
+We are sending them back to you via {!Select_Carrier}, and you can track them using this tracking number: {!Tracking_Number}.
+
+If you have any questions, please don’t hesitate to contact a case manager.  Thank you again for choosing Keller Postman to represent you.
+
+All the best,
+The Keller Postman Team
+
+Keller | Postman
+150 North Riverside, Suite 4170 | Chicago, IL, 60606</text>
+    </textTemplates>
+    <textTemplates>
+        <name>DocRecAckTemp</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear {!ClientName},
+
+We would like to confirm that we received the documents you sent via {!InboundType}.
+
+Our attorneys will review them and reach back out soon with the next steps. 
+
+If you have any questions, please don’t hesitate to contact a case manager. Thank you again for choosing Keller Postman to represent you.
+
+All the best,
+The Keller Postman Team
+
+Keller | Postman
+150 North Riverside, Suite 4170 | Chicago, IL, 60606</text>
+    </textTemplates>
+    <variables>
+        <name>ClientEmailVar</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ClientName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>FromEmail</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>InboundType</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>MatterTier</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ShippingCarrier</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>TrackingNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
